@@ -21,3 +21,7 @@ Attempts to monitor CO2 with microcontrollers and sensors.
 1. Select correct board with Platform IO.
 1. Build & upload with Platform IO
 1. Connec to COM Port with serial monitor
+
+## Plot data
+
+Live-plot example data: use `PuTTY` to create a log file (`putty.log`), and use bash's `watch` to plot the data, e.g., using [gnuplot/eplot](https://gist.github.com/alifeee/2e1ea8ad5290a553316e715f658f1fd7).

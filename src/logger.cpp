@@ -32,6 +32,7 @@ Point influxsensor("environment");
 
 void printUint16Hex(uint16_t value);
 void printSerialNumber(uint16_t serial0, uint16_t serial1, uint16_t serial2);
+void flashLED(int times, int delayTime);
 
 void setup()
 {
@@ -138,8 +139,8 @@ void loop()
 {
     if (wifiError || sensorError || influxError)
     {
-        digitalWrite(LED_BUILTIN, LOW);
-        return;
+        flashLED(1, 1000);
+        delay(1000);
     }
 
     uint16_t error;
@@ -242,4 +243,15 @@ void printSerialNumber(uint16_t serial0, uint16_t serial1, uint16_t serial2)
     printUint16Hex(serial1);
     printUint16Hex(serial2);
     Serial.println();
+}
+
+void flashLED(int times, int delayTime)
+{
+    for (int i = 0; i < times; i++)
+    {
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(delayTime);
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(delayTime);
+    }
 }

@@ -11,8 +11,15 @@ SensirionI2CScd4x scd4x;
 #include <InfluxDbCloud.h>
 #include <secrets.h>
 
+// #define DO_SERIAL
 #define DEVICE "ESP8266"
 #define TZ_INFO "UTC0"
+
+#ifndef DO_SERIAL
+#define Serial \
+    if (0)     \
+    Serial
+#endif
 
 int wifiError = 0;
 int sensorError = 0;
@@ -33,12 +40,14 @@ void setup()
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
 
+#ifdef DO_SERIAL
     // SETUP SERIAL
     Serial.begin(115200);
     while (!Serial)
     {
         delay(100);
     }
+#endif
 
     // SETUP I2C
     Wire.begin(4, 5);

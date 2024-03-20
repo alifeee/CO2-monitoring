@@ -137,9 +137,19 @@ void setup()
 
 void loop()
 {
-    if (wifiError || sensorError || influxError)
+    if (wifiError)
     {
         flashLED(1, 1000);
+        delay(1000);
+    }
+    else if (sensorError)
+    {
+        flashLED(2, 500);
+        delay(1000);
+    }
+    else if (influxError)
+    {
+        flashLED(3, 333);
         delay(1000);
     }
 
@@ -249,9 +259,9 @@ void flashLED(int times, int delayTime)
 {
     for (int i = 0; i < times; i++)
     {
-        digitalWrite(LED_BUILTIN, HIGH);
+        digitalWrite(LED_BUILTIN, LOW); // on (low)
         delay(delayTime);
-        digitalWrite(LED_BUILTIN, LOW);
+        digitalWrite(LED_BUILTIN, HIGH); // off (high)
         delay(delayTime);
     }
 }

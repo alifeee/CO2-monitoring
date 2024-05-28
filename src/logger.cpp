@@ -11,7 +11,7 @@ SensirionI2CScd4x scd4x;
 #include <InfluxDbCloud.h>
 #include <secrets.h>
 
-// #define DO_SERIAL
+#define DO_SERIAL
 #define DEVICE "ESP8266"
 #define TZ_INFO "UTC0"
 
@@ -235,7 +235,9 @@ void loop()
         influxError = 0;
     }
 
-    delay(100);
+    // wait 30s
+    Serial.println("waiting 30s for next measurement...");
+    delay(30000);
 }
 
 void printUint16Hex(uint16_t value)

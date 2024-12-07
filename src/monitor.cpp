@@ -1,8 +1,12 @@
 #include "Arduino.h"
 #include "SensirionI2CScd4x.h"
 #include "Wire.h"
+// #include "BlinkDigits.h"
 
 SensirionI2CScd4x scd4x;
+// BlinkDigits flasher1;
+// int ledPin = LED_BUILTIN;
+// uint16_t flash_co2 = 0;
 
 void printUint16Hex(uint16_t value)
 {
@@ -23,6 +27,10 @@ void printSerialNumber(uint16_t serial0, uint16_t serial1, uint16_t serial2)
 
 void setup()
 {
+    // pinMode(ledPin, OUTPUT);
+    // digitalWrite(ledPin, HIGH);
+
+    // flasher1.config(200,800,200,1500); // slower timings in milliseconds.
 
     Serial.begin(115200);
     while (!Serial)
@@ -78,7 +86,13 @@ void loop()
     uint16_t error;
     char errorMessage[256];
 
+    // bool fin = flasher1.blink(ledPin, LOW, flash_co2);
+    // if(flasher1.blink(ledPin, LOW, flash_co2)) {
+    //     Serial.println("finished!");
+    // }
+
     delay(100);
+
 
     // Read Measurement
     uint16_t co2 = 0;
@@ -110,13 +124,25 @@ void loop()
     }
     else
     {
-        Serial.print("Co2:");
+        // Serial.print("fin is ");
+        // Serial.println(fin);
+        // Serial.print("flash_co2 is ");
+        // Serial.println(flash_co2);
+            
+        // flash_co2 = co2;
+
+        // flasher does not currently
+        // if (fin && (co2 != flash_co2)) {
+        //     flash_co2 = co2;
+        // }
+
+        Serial.print("Co2\t");
         Serial.print(co2);
         Serial.print("\t");
-        Serial.print("Temperature:");
+        Serial.print("Temperature\t");
         Serial.print(temperature);
         Serial.print("\t");
-        Serial.print("Humidity:");
+        Serial.print("Humidity\t");
         Serial.println(humidity);
     }
 }

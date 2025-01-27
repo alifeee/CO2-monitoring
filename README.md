@@ -30,6 +30,21 @@ It has an accuracy of:
 
 ## How to build
 
+### Hardware
+
+Attach the ESP to the SCD40 any which way you desire. Here is one option:
+
+See a pinout reference diagram e.g., [this one](https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/), and connect:
+
+| SDC40 | ESP8266 |
+| --- | --- |
+| GND (ground) | GND (ground) |
+| VCC (supply voltage) | 5V |
+| SCL (SPI clock) | GPIO5 / SCL |
+| SDA (SPI data) | GPIO4 / SDA |
+
+![picture of two electronic boards connected together](./images/boards.jpg)
+
 ### Build
 
 First, install <https://platformio.org/> as a command line interface (CLI).

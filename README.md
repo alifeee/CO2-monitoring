@@ -12,21 +12,67 @@ To be connected to a time-series database like [InfluxDB](https://docs.influxdat
 
 ## Sensor used
 
-[Sensirion SCD40](https://developer.sensirion.com/products-support/scd4x-co2-sensor/) -> [Sensirion_SCD4x_Datasheet.pdf](./Sensirion_SCD4x_Datasheet.pdf)
+## Environment monitor
+
+The monitor is an SCD40: <https://sensirion.com/products/catalog/SCD40>
+
+It has an accuracy of:
+
+- CO2 accuracy: ±50.0 ppm
+- temperature accuracy: 0.8 °C
+- relative humidity accuracy: 6 %RH
+
+[Sensirion SCD40](https://developer.sensirion.com/products-support/scd4x-co2-sensor/) · [Sensirion_SCD4x_Datasheet.pdf](./Sensirion_SCD4x_Datasheet.pdf)
 
 ## Microcontroller used
 
 [ESP8266 D1 Mini](https://www.wemos.cc/en/latest/d1/d1_mini.html)
 
-## Requirements
-
-[Platform IO](https://platformio.org/) for VSCode. Follow their guide to get started.
-
 ## How to build
+
+### Build
+
+First, install <https://platformio.org/> as a command line interface (CLI).
+
+To test PlatformIO, upload the ["blink" program](./src/main-blink.cpp), which should blink the inbuilt ESP LED once every second.
+
+#### Test with `blink.cpp`
+
+```bash
+# build firmware/software
+pio run -e blink
+# upload (flash device)
+pio run -t upload  -e blink
+```
+
+#### Test with `monitor.cpp`
+
+Then, upload the monitor program. This should flash the current CO2 levels on the LED, and output them to serial.
+
+```bash
+# build firmware/software
+pio run -e monitor
+# upload (flash device)
+pio run -t upload -e monitor
+# monitor (serial)
+pio device monitor
+```
+
+Once it works, you can run some terminals to view live graphs and a display using the scripts in the `monitor-scripts` folder. First, log the data to a file `env.log` using
+
+```bash
+pio device monitor --quiet | tee -a env.log
+```
+
+Then run each of the scripts like `watch ./monitor-scripts/printppm.sh`, resulting in something like:
+
+![screenshot of several terminal windows showing CO2 statistics](./images/terminal_monitors.png)
+
+#### `logger.cpp`
 
 This is setup to use InfluxDB. First, set up an InfluxDB instance on a server following the [guide](https://docs.influxdata.com/influxdb/v2/install/).
 
-### Secrets file
+Then, create an API access token, and edit the secrets file:
 
 Project secrets are stored in `./src/secrets.h`. There is an example secrets file [`./src/secrets.example.h`](./src/secrets.example.h).
 
@@ -35,12 +81,15 @@ This contains:
 - InfluxDB secrets (URL, organisationm access token, bucket)
 - WiFi secrets (SSID, password)
 
-### Build
+Install the logger firmware with:
 
-1. Select correct board (D1 Mini) with Platform IO.
-1. Build & upload with Platform IO
-1. Connect to COM Port with serial monitor
+```bash
+# build firmware/software
+pio run -e logger
+# upload (flash device)
+pio run -t upload -e logger
+# monitor (serial)
+pio device monitor
+```
 
-## Plot data manually
-
-Live-plot example data: use `PuTTY` to create a log file (`putty.log`), and use bash's `watch` to plot the data, e.g., using gnuplot/eplot - [see guide](https://gist.github.com/alifeee/2e1ea8ad5290a553316e715f658f1fd7).
+You should see any success/error messages in the serial output,

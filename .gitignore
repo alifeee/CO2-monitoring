@@ -6,3 +6,6 @@
 
 # secrets
 /src/secrets.h
+
+# data logging
+env.log

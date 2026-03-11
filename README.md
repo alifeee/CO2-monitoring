@@ -1,3 +1,5 @@
+> [!CAUTION]
+> MOVED! see <https://git.alifeee.net/CO2-monitoring/about/>
 # CO2 Monitoring
 
 Monitoring CO2 levels, and temperature with an ESP8266 D1 Mini microcontroller and a Sensirion SCD40 CO2 sensor.
